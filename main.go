@@ -2,10 +2,13 @@ package main
 
 import (
 	"archive/zip"
+	"evesovspace/internal/structs"
 	"fmt"
 	"io/fs"
 	"os"
 	"strings"
+
+	"gopkg.in/yaml.v2"
 )
 
 func main() {
@@ -23,27 +26,33 @@ func archive() {
 		panic(err)
 	}
 
+	var region structs.Region
+	var constellation structs.Constellation
+
 	for _, file := range zipR.File {
 		if strings.Contains(file.Name, ".staticdata") && strings.Contains(file.Name, "sde/fsd/universe/eve/") {
-			fmt.Println(file.Name)
+			// fmt.Println(file.Name)
+
+			if strings.Contains(file.Name, "region.staticdata") {
+				rc, _ := file.Open()
+				err = yaml.NewDecoder(rc).Decode(&region)
+				if err != nil {
+					fmt.Printf("Unmarshall error #%v", err)
+					continue
+				}
+				fmt.Printf("file.Name: %v %+v\n", file.Name, region)
+			}
+
+			if strings.Contains(file.Name, "constellation.staticdata") {
+				rc, _ := file.Open()
+				err = yaml.NewDecoder(rc).Decode(&constellation)
+				if err != nil {
+					fmt.Printf("Unmarshall error #%v", err)
+					continue
+				}
+				fmt.Printf("file.Name: %v %+v\n", file.Name, constellation)
+			}
 		}
-
-		// fmt.Println("Файл " + file.Name + " содержит следующее:")
-		// r, err := file.Open()
-		// if err != nil {
-		// 	log.Fatal(err)
-		// }
-		// _, err = io.Copy(os.Stdout, r)
-		// if err != nil {
-		// 	panic(err)
-		// }
-		// err = r.Close()
-		// if err != nil {
-		// 	panic(err)
-		// }
-		// fmt.Println()
-
-		// break
 	}
 
 }
