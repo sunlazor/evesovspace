@@ -26,31 +26,44 @@ func archive() {
 		panic(err)
 	}
 
-	var region structs.Region
-	var constellation structs.Constellation
+	// var region structs.Region
+	// var constellation structs.Constellation
+	var solarsystem structs.SolarSystem
 
 	for _, file := range zipR.File {
 		if strings.Contains(file.Name, ".staticdata") && strings.Contains(file.Name, "sde/fsd/universe/eve/") {
 			// fmt.Println(file.Name)
 
-			if strings.Contains(file.Name, "region.staticdata") {
-				rc, _ := file.Open()
-				err = yaml.NewDecoder(rc).Decode(&region)
-				if err != nil {
-					fmt.Printf("Unmarshall error #%v", err)
-					continue
-				}
-				fmt.Printf("file.Name: %v %+v\n", file.Name, region)
-			}
+			// if strings.Contains(file.Name, "region.staticdata") {
+			// 	rc, _ := file.Open()
+			// 	err = yaml.NewDecoder(rc).Decode(&region)
+			// 	if err != nil {
+			// 		fmt.Printf("Unmarshall error #%v", err)
+			// 		continue
+			// 	}
+			// 	fmt.Printf("file.Name: %v %+v\n", file.Name, region)
+			// }
 
-			if strings.Contains(file.Name, "constellation.staticdata") {
+			// if strings.Contains(file.Name, "constellation.staticdata") {
+			// 	rc, _ := file.Open()
+			// 	err = yaml.NewDecoder(rc).Decode(&constellation)
+			// 	if err != nil {
+			// 		fmt.Printf("Unmarshall error #%v", err)
+			// 		continue
+			// 	}
+			// 	fmt.Printf("file.Name: %v %+v\n", file.Name, constellation)
+			// }
+
+			if strings.Contains(file.Name, "solarsystem.staticdata") {
 				rc, _ := file.Open()
-				err = yaml.NewDecoder(rc).Decode(&constellation)
+				err = yaml.NewDecoder(rc).Decode(&solarsystem)
 				if err != nil {
 					fmt.Printf("Unmarshall error #%v", err)
-					continue
+					break
 				}
-				fmt.Printf("file.Name: %v %+v\n", file.Name, constellation)
+				fmt.Printf("file.Name: %v %+v\n", file.Name, solarsystem)
+
+				break
 			}
 		}
 	}
