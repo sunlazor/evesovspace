@@ -47,11 +47,3 @@ type SolarSystem struct {
 	SunTypeID       uint32 `yaml:"sunTypeID"`
 	WormholeClassID uint32 `yaml:"wormholeClassID"`
 }
-
-type StargateID struct {
-	Destination uint32    `yaml:"destination"`
-	Position    []float32 `yaml:"position"`
-	TypeID      uint32    `yaml:"typeID"`
-}
-
-// `yaml:",flow"`
